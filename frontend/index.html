@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PLA-Based Rule Engine Designer | Digital Electronics CAD Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar">
+    <div class="brand-header">
+      <div class="brand-icon">⚡</div>
+      <div>
+        <div class="brand-title">PLA Rule Engine</div>
+        <div class="brand-subtitle">CAD & Logic Simulator</div>
+      </div>
+    </div>
+
+    <ul class="nav-menu">
+      <li class="nav-category">Overview</li>
+      <li>
+        <a class="nav-item active" data-target="home">
+          <span class="nav-icon">🏠</span>
+          <span class="nav-text">Home</span>
+        </a>
+      </li>
+      <li>
+        <a class="nav-item" data-target="about">
+          <span class="nav-icon">📖</span>
+          <span class="nav-text">About PLA</span>
+          <span class="nav-badge">EC2201</span>
+        </a>
+      </li>
+
+      <li class="nav-category">Rule Design & Logic</li>
+      <li>
+        <a class="nav-item" data-target="rules">
+          <span class="nav-icon">✏️</span>
+          <span class="nav-text">Rule Designer</span>
+        </a>
+      </li>
+      <li>
+        <a class="nav-item" data-target="product-terms">
+          <span class="nav-icon">🧬</span>
+          <span class="nav-text">Product Terms</span>
+          <span class="nav-badge" id="sidebarTermCount">AND</span>
+        </a>
+      </li>
+      <li>
+        <a class="nav-item" data-target="outputs">
+          <span class="nav-icon">🔀</span>
+          <span class="nav-text">Output Mapping</span>
+          <span class="nav-badge">OR</span>
+        </a>
+      </li>
+
+      <li class="nav-category">Verification & Simulation</li>
+      <li>
+        <a class="nav-item" data-target="truth-table">
+          <span class="nav-icon">📊</span>
+          <span class="nav-text">Truth Table (16)</span>
+        </a>
+      </li>
+      <li>
+        <a class="nav-item" data-target="simulator">
+          <span class="nav-icon">🕹️</span>
+          <span class="nav-text">PLA Simulator</span>
+          <span class="nav-badge" style="background:var(--green-glow);color:var(--green-neon);">LIVE</span>
+        </a>
+      </li>
+      <li>
+        <a class="nav-item" data-target="conflicts">
+          <span class="nav-icon">⚠️</span>
+          <span class="nav-text">Conflict Detection</span>
+        </a>
+      </li>
+      <li>
+        <a class="nav-item" data-target="test-cases">
+          <span class="nav-icon">🧪</span>
+          <span class="nav-text">Test Cases</span>
+          <span class="nav-badge">10+5</span>
+        </a>
+      </li>
+
+      <li class="nav-category">Insights & Deliverables</li>
+      <li>
+        <a class="nav-item" data-target="analytics">
+          <span class="nav-icon">📈</span>
+          <span class="nav-text">Data Analytics</span>
+        </a>
+      </li>
+      <li>
+        <a class="nav-item" data-target="documentation">
+          <span class="nav-icon">📑</span>
+          <span class="nav-text">Documentation</span>
+        </a>
+      </li>
+      <li>
+        <a class="nav-item" data-target="admin">
+          <span class="nav-icon">⚙️</span>
+          <span class="nav-text">Admin Panel</span>
+        </a>
+      </li>
+      <li>
+        <a class="nav-item" data-target="deliverables">
+          <span class="nav-icon">📦</span>
+          <span class="nav-text">Deliverables</span>
+          <span class="nav-badge">Exports</span>
+        </a>
+      </li>
+    </ul>
+
+    <div class="sidebar-footer">
+      <div class="status-indicator" id="backendStatusBadge">
+        <span class="status-dot"></span> Checking backend...
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content Layout -->
+  <main class="main-wrapper">
+    <!-- Top Bar -->
+    <header class="top-nav">
+      <div class="page-breadcrumb">
+        <span class="breadcrumb-root">PLA Designer</span>
+        <span style="color:var(--text-muted)">/</span>
+        <span class="breadcrumb-current" id="breadcrumbCurrent">Home Overview</span>
+      </div>
+
+      <div class="top-actions">
+        <button class="btn btn-outline btn-sm" id="startTourBtn">🚀 Guided Tour</button>
+        <button class="btn btn-outline btn-sm" id="printReportBtn">🖨️ Print / PDF</button>
+        <button class="icon-btn" id="themeToggle" title="Toggle Dark/Light Mode">☀️</button>
+        <a href="#simulator" class="btn btn-primary btn-sm" data-route="simulator">Launch Simulator</a>
+      </div>
+    </header>
+
+    <!-- Page Body Container -->
+    <div class="page-container">
+
+      <!-- 1. HOME PAGE -->
+      <section id="home" class="page-section active">
+        <div class="card" style="background:linear-gradient(135deg, rgba(0,242,254,0.08), rgba(168,85,247,0.08)); border-color:var(--border-glow); padding:40px 30px;">
+          <span class="term-tag" style="margin-bottom:12px;">EC2201 DIGITAL ELECTRONICS PROJECT</span>
+          <h1 style="font-size:32px; font-weight:800; margin-bottom:12px; letter-spacing:-0.5px;">
+            Programmable Logic Array (PLA) Rule Engine Designer
+          </h1>
+          <p style="font-size:15px; color:var(--text-secondary); max-width:820px; line-height:1.6; margin-bottom:24px;">
+            An advanced simulation, synthesis, and verification workbench for Programmable Logic Arrays. Define Boolean rules in Sum-of-Products (SOP) form, automatically compile programmable AND and OR planes, inspect 16-row truth tables, detect rule conflicts and absorption redundancies, and simulate live digital circuit signal propagation in real-time.
+          </p>
+          <div style="display:flex; gap:12px; flex-wrap:wrap;">
+            <button class="btn btn-primary" data-route="simulator">Interactive PLA Simulator</button>
+            <button class="btn btn-outline" data-route="rules">Design Boolean Rules</button>
+            <button class="btn btn-outline" data-route="about">Architecture & Syllabus</button>
+            <button class="btn btn-outline" data-route="test-cases">Run 15 Test Cases</button>
+          </div>
+        </div>
+
+        <!-- Quick Stats Overview -->
+        <div class="grid-4" style="margin-bottom:24px;">
+          <div class="stat-card">
+            <div class="stat-icon cyan">📜</div>
+            <div>
+              <div class="stat-val" id="statTotalRules">9</div>
+              <div class="stat-label">Total Rules</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon green">⚡</div>
+            <div>
+              <div class="stat-val" id="statActiveRules">9</div>
+              <div class="stat-label">Active Rules</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon purple">🧩</div>
+            <div>
+              <div class="stat-val" id="statProductTerms">9</div>
+              <div class="stat-label">Product Terms</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon amber">🛡️</div>
+            <div>
+              <div class="stat-val" id="statHealthScore">100%</div>
+              <div class="stat-label">Logic Health Score</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Key Features Grid -->
+        <div class="grid-3">
+          <div class="card">
+            <div class="card-title">🔌 Programmable Matrix</div>
+            <p style="font-size:13px; color:var(--text-secondary); line-height:1.5;">
+              Programmable AND plane and programmable OR plane with fusible crosspoints connecting 8 rails (A, A', B, B', C, C', D, D') to product terms.
+            </p>
+          </div>
+          <div class="card">
+            <div class="card-title">🔍 Conflict & Hazard Scanner</div>
+            <p style="font-size:13px; color:var(--text-secondary); line-height:1.5;">
+              Automated detection of duplicate product terms, contradictory output assignments, subsumption absorption, and static hazard notices.
+            </p>
+          </div>
+          <div class="card">
+            <div class="card-title">🧪 Comprehensive Test Suite</div>
+            <p style="font-size:13px; color:var(--text-secondary); line-height:1.5;">
+              10 Normal operating vectors and 5 Edge/Fault vectors validating all-zeros, saturation, and transition thresholds.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. ABOUT PLA -->
+      <section id="about" class="page-section">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title">What is a Programmable Logic Array (PLA)?</h2>
+              <div class="card-subtitle">Digital Principles & System Design (EC2201 Syllabus Unit IV: PLDs)</div>
+            </div>
+          </div>
+          <p style="font-size:14px; color:var(--text-secondary); line-height:1.6; margin-bottom:16px;">
+            A <strong>Programmable Logic Array (PLA)</strong> is a Programmable Logic Device (PLD) used to implement complex combinational logic circuits in <strong>Sum of Products (SOP)</strong> form. Unlike a PROM (which has a fixed AND plane and programmable OR plane) or a PAL (which has a programmable AND plane and fixed OR plane), a PLA offers maximum flexibility because <strong>both the AND plane and the OR plane are fully programmable</strong>.
+          </p>
+
+          <!-- Visual Architecture Diagram (SVG) -->
+          <h3 style="font-size:15px; margin-bottom:10px; color:var(--cyan-neon);">PLA Block Diagram Architecture</h3>
+          <div style="background:#070b12; border:1px solid var(--border-color); border-radius:8px; padding:20px; text-align:center; margin-bottom:20px; overflow-x:auto;">
+            <svg width="680" height="150" viewBox="0 0 680 150" style="max-width:100%; display:inline-block;">
+              <!-- Inputs -->
+              <text x="25" y="45" fill="#f1f5f9" font-family="monospace" font-size="12" font-weight="bold">Inputs</text>
+              <text x="15" y="65" fill="#00f2fe" font-family="monospace" font-size="11">A, B, C, D</text>
+              <line x1="65" y1="60" x2="105" y2="60" stroke="#00f2fe" stroke-width="2" marker-end="url(#arrow)" />
+              
+              <!-- Input Buffers / Inverters -->
+              <rect x="110" y="30" width="100" height="65" rx="6" fill="#1e293b" stroke="#00f2fe" stroke-width="1.5"/>
+              <text x="160" y="58" fill="#f1f5f9" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">Input Buffers</text>
+              <text x="160" y="75" fill="#94a3b8" font-family="sans-serif" font-size="10" text-anchor="middle">& Inverters</text>
+              <line x1="210" y1="60" x2="250" y2="60" stroke="#00f2fe" stroke-width="2" />
+              <text x="230" y="52" fill="#00f2fe" font-family="monospace" font-size="9" text-anchor="middle">8 Rails</text>
+
+              <!-- Programmable AND Array -->
+              <rect x="250" y="20" width="130" height="85" rx="6" fill="#162032" stroke="#10b981" stroke-width="2"/>
+              <text x="315" y="52" fill="#10b981" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">Programmable</text>
+              <text x="315" y="68" fill="#10b981" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">AND Plane</text>
+              <text x="315" y="86" fill="#64748b" font-family="monospace" font-size="9" text-anchor="middle">Product Terms (P)</text>
+              <line x1="380" y1="60" x2="420" y2="60" stroke="#10b981" stroke-width="2" />
+              <text x="400" y="52" fill="#10b981" font-family="monospace" font-size="9" text-anchor="middle">P0..Pk</text>
+
+              <!-- Programmable OR Array -->
+              <rect x="420" y="20" width="130" height="85" rx="6" fill="#162032" stroke="#a855f7" stroke-width="2"/>
+              <text x="485" y="52" fill="#a855f7" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">Programmable</text>
+              <text x="485" y="68" fill="#a855f7" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">OR Plane</text>
+              <text x="485" y="86" fill="#64748b" font-family="monospace" font-size="9" text-anchor="middle">Sum of Products</text>
+              <line x1="550" y1="60" x2="590" y2="60" stroke="#a855f7" stroke-width="2" />
+
+              <!-- Output Buffers -->
+              <rect x="590" y="30" width="80" height="65" rx="6" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+              <text x="630" y="58" fill="#f1f5f9" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">Outputs</text>
+              <text x="630" y="75" fill="#f59e0b" font-family="monospace" font-size="10" text-anchor="middle">Y1 .. Y4</text>
+            </svg>
+          </div>
+
+          <!-- Comparison Table: PROM vs PAL vs PLA -->
+          <h3 style="font-size:15px; margin-bottom:10px; color:var(--cyan-neon);">Comparison of Programmable Logic Devices (PLDs)</h3>
+          <div class="data-table-wrapper" style="margin-bottom:20px;">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Feature</th>
+                  <th>PROM (Programmable ROM)</th>
+                  <th>PAL (Programmable Array Logic)</th>
+                  <th>PLA (Programmable Logic Array)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>AND Plane</strong></td>
+                  <td>Fixed (Complete Decoder)</td>
+                  <td>Programmable</td>
+                  <td><span class="term-tag" style="color:var(--green-neon);">Programmable</span></td>
+                </tr>
+                <tr>
+                  <td><strong>OR Plane</strong></td>
+                  <td>Programmable</td>
+                  <td>Fixed</td>
+                  <td><span class="term-tag" style="color:var(--green-neon);">Programmable</span></td>
+                </tr>
+                <tr>
+                  <td><strong>Product Term Sharing</strong></td>
+                  <td>No (Dedicated minterms)</td>
+                  <td>No (Fixed to single OR gate)</td>
+                  <td><strong style="color:var(--cyan-neon);">Yes (Shared across outputs)</strong></td>
+                </tr>
+                <tr>
+                  <td><strong>Silicon Chip Area</strong></td>
+                  <td>High (2<sup>n</sup> decoder)</td>
+                  <td>Low / Medium</td>
+                  <td>Optimized (Quine-McCluskey minimizable)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Architecture Flow -->
+          <h3 style="font-size:15px; margin-bottom:10px; color:var(--purple-neon);">PLA Internal Architecture & Signal Flow</h3>
+          <div style="background:var(--bg-secondary); padding:16px; border-radius:8px; border:1px solid var(--border-color); font-size:13px; line-height:1.7;">
+            <strong>1. Input Buffers & Inverters:</strong> Each input variable (A, B, C, D) passes through a buffer/inverter stage producing both the true rail (A) and inverted rail (A'). For 4 variables, 8 rails traverse the AND array.<br>
+            <strong>2. Programmable AND Array (Product Terms):</strong> Fusible links at crosspoints connect chosen input rails to horizontal product term lines ($P_0 \dots P_k$). If a fuse is intact, that literal enters the AND gate.<br>
+            <strong>3. Programmable OR Array (Sum Terms):</strong> Vertical output lines ($Y_1 \dots Y_m$) intersect the product terms with a second set of programmable fuses, performing logical OR.<br>
+            <strong>4. Invert / Non-Invert Output Buffers:</strong> Optional programmable XOR gates allow active-high or active-low output polarity.
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. RULE DESIGNER -->
+      <section id="rules" class="page-section">
+        <div class="grid-2">
+          <!-- Form Card -->
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">Add / Edit Boolean Rule</h2>
+              <span class="nav-badge">Inputs: A, B, C, D</span>
+            </div>
+
+            <!-- Presets -->
+            <div style="margin-bottom:16px;">
+              <label style="font-size:12px; color:var(--text-secondary); display:block; margin-bottom:6px;">Load Standard Preset:</label>
+              <select id="presetSelect" style="width:100%; padding:8px 12px; background:var(--bg-secondary); border:1px solid var(--border-color); color:var(--text-primary); border-radius:6px;">
+                <option value="arithmetic">Preset 1: Full Adder & Subtractor (Arithmetic)</option>
+                <option value="priority_arbiter">Preset 2: 4-Line Priority Arbiter</option>
+                <option value="safety_interlock">Preset 3: Industrial Safety Interlock</option>
+                <option value="conflict_benchmark">Preset 4: Conflict Benchmark (Redundancies)</option>
+              </select>
+            </div>
+
+            <form id="addRuleForm">
+              <div style="margin-bottom:14px;">
+                <label style="font-size:12px; color:var(--text-secondary); display:block; margin-bottom:4px;">Rule Identifier Name:</label>
+                <input type="text" id="ruleNameInput" placeholder="e.g. Parity_Bit_Check" style="width:100%; padding:8px 12px; background:var(--bg-secondary); border:1px solid var(--border-color); color:var(--text-primary); border-radius:6px;">
+              </div>
+
+              <div style="margin-bottom:14px;">
+                <label style="font-size:12px; color:var(--text-secondary); display:block; margin-bottom:4px;">Target Output Pin:</label>
+                <select id="ruleTargetSelect" style="width:100%; padding:8px 12px; background:var(--bg-secondary); border:1px solid var(--border-color); color:var(--text-primary); border-radius:6px;">
+                  <option value="Y1">Output Y1 (Full Adder Sum / Primary)</option>
+                  <option value="Y2">Output Y2 (Full Adder Carry / Secondary)</option>
+                  <option value="Y3">Output Y3 (Parity / Match Flag)</option>
+                  <option value="Y4">Output Y4 (Safety Lockout / Alarm)</option>
+                </select>
+              </div>
+
+              <div style="margin-bottom:10px;">
+                <label style="font-size:12px; color:var(--text-secondary); display:block; margin-bottom:4px;">Boolean SOP Expression:</label>
+                <input type="text" id="ruleExprInput" placeholder="e.g. A'B'C + ABC or AB + CD'" style="width:100%; padding:10px 12px; background:var(--bg-secondary); border:1px solid var(--border-color); color:var(--text-primary); font-family:var(--font-mono); font-size:14px; border-radius:6px;">
+              </div>
+
+              <!-- Operator Chips -->
+              <div style="margin-bottom:16px;">
+                <div style="font-size:11px; color:var(--text-muted); margin-bottom:6px;">Quick Operator Insertion:</div>
+                <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                  <button type="button" class="btn btn-sm btn-outline token-chip" data-val="A">A</button>
+                  <button type="button" class="btn btn-sm btn-outline token-chip" data-val="A'">A'</button>
+                  <button type="button" class="btn btn-sm btn-outline token-chip" data-val="B">B</button>
+                  <button type="button" class="btn btn-sm btn-outline token-chip" data-val="B'">B'</button>
+                  <button type="button" class="btn btn-sm btn-outline token-chip" data-val="C">C</button>
+                  <button type="button" class="btn btn-sm btn-outline token-chip" data-val="C'">C'</button>
+                  <button type="button" class="btn btn-sm btn-outline token-chip" data-val="D">D</button>
+                  <button type="button" class="btn btn-sm btn-outline token-chip" data-val="D'">D'</button>
+                  <button type="button" class="btn btn-sm btn-outline token-chip" data-val=" + ">OR (+)</button>
+                  <button type="button" class="btn btn-sm btn-outline token-chip" data-val=" * ">AND (*)</button>
+                </div>
+              </div>
+
+              <div style="margin-bottom:16px;">
+                <label style="font-size:12px; color:var(--text-secondary); display:block; margin-bottom:4px;">Description / Documentation:</label>
+                <input type="text" id="ruleDescInput" placeholder="Purpose or timing specification" style="width:100%; padding:8px 12px; background:var(--bg-secondary); border:1px solid var(--border-color); color:var(--text-primary); border-radius:6px;">
+              </div>
+
+              <button type="submit" class="btn btn-primary" style="width:100%;">Save & Compile Rule into PLA</button>
+            </form>
+          </div>
+
+          <!-- Active Rules Table -->
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">Configured Rules Database</h2>
+            </div>
+            <div class="data-table-wrapper" style="max-height:480px; overflow-y:auto;">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Rule Name</th>
+                    <th>Expression (SOP)</th>
+                    <th>Target Output</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="rulesTableBody">
+                  <!-- Injected via JavaScript -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. PRODUCT TERM GENERATOR -->
+      <section id="product-terms" class="page-section">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title">AND-Plane Product Term Generator</h2>
+              <div class="card-subtitle">Deconstructs SOP rules into distinct hardware AND gates and rail fuses</div>
+            </div>
+          </div>
+
+          <!-- AND Matrix Implementation Table -->
+          <h3 style="font-size:14px; margin-bottom:10px; color:var(--cyan-neon);">AND Plane Fusible Crosspoint Matrix</h3>
+          <div class="data-table-wrapper" style="margin-bottom:24px;">
+            <table class="data-table" id="andMatrixTable">
+              <thead>
+                <tr>
+                  <th>Term ID</th>
+                  <th>SOP Expression</th>
+                  <th>A</th>
+                  <th>A'</th>
+                  <th>B</th>
+                  <th>B'</th>
+                  <th>C</th>
+                  <th>C'</th>
+                  <th>D</th>
+                  <th>D'</th>
+                  <th>Drives Outputs</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="andMatrixTableBody">
+                <!-- Injected via JavaScript -->
+              </tbody>
+            </table>
+          </div>
+
+          <div id="productTermsList">
+            <!-- Product terms rendered here -->
+          </div>
+
+          <h3 style="font-size:15px; margin:24px 0 12px; color:var(--green-neon);">Quine-McCluskey Minimized Expressions</h3>
+          <div id="qmMinimizationResults">
+            <!-- Quine-McCluskey minimal results here -->
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. OUTPUT MAPPING MODULE -->
+      <section id="outputs" class="page-section">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title">Output Mapping & Programmable OR Plane</h2>
+              <div class="card-subtitle">Maps generated product terms to target outputs (Y1, Y2, Y3, Y4)</div>
+            </div>
+          </div>
+
+          <!-- OR Plane Crosspoint Matrix Table -->
+          <h3 style="font-size:14px; margin-bottom:10px; color:var(--amber-neon);">OR Plane Crosspoint Fusible Links</h3>
+          <div class="data-table-wrapper" style="margin-bottom:24px;">
+            <table class="data-table" id="orMatrixTable">
+              <thead id="orMatrixTableHead">
+                <!-- Injected via JavaScript -->
+              </thead>
+              <tbody id="orMatrixTableBody">
+                <!-- Injected via JavaScript -->
+              </tbody>
+            </table>
+          </div>
+
+          <div class="grid-2" id="outputMappingGrid">
+            <!-- Output cards dynamically populated -->
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. TRUTH TABLE GENERATOR -->
+      <section id="truth-table" class="page-section">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title">Complete 16-Row PLA Truth Table</h2>
+              <div class="card-subtitle">Exhaustive functional simulation across all 16 input minterms (m0 to m15)</div>
+            </div>
+            <div style="display:flex; gap:8px;">
+              <button class="btn btn-outline btn-sm" id="exportTruthTableCsv">📥 Export CSV</button>
+              <button class="btn btn-outline btn-sm" id="exportTruthTableJson">📥 Export JSON</button>
+            </div>
+          </div>
+
+          <div class="data-table-wrapper" style="max-height:560px; overflow-y:auto;">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Minterm</th>
+                  <th>A</th>
+                  <th>B</th>
+                  <th>C</th>
+                  <th>D</th>
+                  <th>Active Product Terms</th>
+                  <th>Y1 (Sum)</th>
+                  <th>Y2 (Carry)</th>
+                  <th>Y3 (Parity)</th>
+                  <th>Y4 (Lockout)</th>
+                </tr>
+              </thead>
+              <tbody id="truthTableBody">
+                <!-- Rows injected dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- 7. PLA SIMULATOR -->
+      <section id="simulator" class="page-section">
+        <div class="card" style="padding:16px;">
+          <div class="card-header" style="margin-bottom:12px;">
+            <div>
+              <h2 class="card-title">Interactive PLA Hardware Simulator</h2>
+              <div class="card-subtitle">Real-time logic flow through programmable AND matrix and OR matrix</div>
+            </div>
+            <span class="nav-badge" style="background:rgba(16,185,129,0.2);color:var(--green-neon);font-weight:700;">LIVE INTERACTIVE</span>
+          </div>
+
+          <!-- Input Switches -->
+          <div class="switch-group" style="margin-bottom:16px;">
+            <div class="switch-unit">
+              <span class="switch-label">INPUT A</span>
+              <div class="rocker-switch" data-var="A">
+                <div class="switch-handle">0</div>
+              </div>
+              <span class="switch-val" style="font-family:var(--font-mono);font-size:12px;color:var(--cyan-neon);">0</span>
+            </div>
+            <div class="switch-unit">
+              <span class="switch-label">INPUT B</span>
+              <div class="rocker-switch" data-var="B">
+                <div class="switch-handle">0</div>
+              </div>
+              <span class="switch-val" style="font-family:var(--font-mono);font-size:12px;color:var(--cyan-neon);">0</span>
+            </div>
+            <div class="switch-unit">
+              <span class="switch-label">INPUT C</span>
+              <div class="rocker-switch active" data-var="C">
+                <div class="switch-handle">1</div>
+              </div>
+              <span class="switch-val" style="font-family:var(--font-mono);font-size:12px;color:var(--cyan-neon);">1</span>
+            </div>
+            <div class="switch-unit">
+              <span class="switch-label">INPUT D</span>
+              <div class="rocker-switch" data-var="D">
+                <div class="switch-handle">0</div>
+              </div>
+              <span class="switch-val" style="font-family:var(--font-mono);font-size:12px;color:var(--cyan-neon);">0</span>
+            </div>
+          </div>
+
+          <!-- Interactive Canvas Visualizer -->
+          <div class="matrix-container" style="margin-bottom:16px;">
+            <canvas id="plaCanvas"></canvas>
+          </div>
+
+          <!-- Output LEDs -->
+          <div style="display:flex; justify-content:center; gap:20px; flex-wrap:wrap; margin-bottom:16px;">
+            <div class="led-indicator">
+              <div class="led-bulb" id="led-Y1"></div>
+              <span class="led-label" style="color:var(--cyan-neon);">OUTPUT Y1</span>
+              <span class="led-state" id="led-state-Y1">LOGIC LOW</span>
+            </div>
+            <div class="led-indicator">
+              <div class="led-bulb" id="led-Y2"></div>
+              <span class="led-label" style="color:var(--green-neon);">OUTPUT Y2</span>
+              <span class="led-state" id="led-state-Y2">LOGIC LOW</span>
+            </div>
+            <div class="led-indicator">
+              <div class="led-bulb" id="led-Y3"></div>
+              <span class="led-label" style="color:var(--amber-neon);">OUTPUT Y3</span>
+              <span class="led-state" id="led-state-Y3">LOGIC LOW</span>
+            </div>
+            <div class="led-indicator">
+              <div class="led-bulb" id="led-Y4"></div>
+              <span class="led-label" style="color:var(--red-neon);">OUTPUT Y4</span>
+              <span class="led-state" id="led-state-Y4">LOGIC LOW</span>
+            </div>
+          </div>
+
+          <!-- Real-Time Flow Card -->
+          <div class="card" style="background:var(--bg-secondary); margin-bottom:0; padding:14px;">
+            <div style="font-size:12px; text-transform:uppercase; color:var(--text-muted); font-weight:700; margin-bottom:6px;">Real-Time Signal Trace Explanation</div>
+            <div id="logicFlowExplanation" style="font-family:var(--font-mono); font-size:13px; color:var(--text-primary); line-height:1.6;">
+              <!-- Dynamic trace text -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 8. CONFLICT DETECTION MODULE -->
+      <section id="conflicts" class="page-section">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title">Rule Conflict & Redundancy Scanner</h2>
+              <div class="card-subtitle">Identifies duplicate terms, absorption hazards, and contradictory outputs</div>
+            </div>
+            <button class="btn btn-primary btn-sm" id="autoResolveBtn">⚡ Auto-Resolve Conflicts</button>
+          </div>
+          <div id="conflictsContainer">
+            <!-- Conflict cards populated dynamically -->
+          </div>
+        </div>
+      </section>
+
+      <!-- 9. TEST CASE MODULE -->
+      <section id="test-cases" class="page-section">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title">Automated Verification Test Suite</h2>
+              <div class="card-subtitle">10 Normal Operational Cases + 5 Edge/Fault Cases</div>
+            </div>
+            <div style="display:flex; gap:8px;">
+              <button class="btn btn-primary btn-sm" id="runTestsBtn">▶ Run All Test Cases</button>
+              <button class="btn btn-outline btn-sm" id="exportTestCasesCsv">📥 Export CSV</button>
+            </div>
+          </div>
+
+          <!-- Summary Metrics -->
+          <div class="grid-4" style="margin-bottom:20px;">
+            <div class="stat-card">
+              <div class="stat-icon cyan">📊</div>
+              <div>
+                <div class="stat-val" id="testSummaryTotal">15</div>
+                <div class="stat-label">Total Tests</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon green">✓</div>
+              <div>
+                <div class="stat-val" id="testSummaryPassed">15</div>
+                <div class="stat-label">Passed</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon red">✗</div>
+              <div>
+                <div class="stat-val" id="testSummaryFailed">0</div>
+                <div class="stat-label">Failed</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon purple">🎯</div>
+              <div>
+                <div class="stat-val" id="testSummaryRate">100%</div>
+                <div class="stat-label">Pass Rate</div>
+              </div>
+            </div>
+          </div>
+
+          <div id="testResultsList">
+            <!-- Test cases populated here -->
+          </div>
+        </div>
+      </section>
+
+      <!-- 10. DATA ANALYTICS DASHBOARD -->
+      <section id="analytics" class="page-section">
+        <div class="grid-3" style="margin-bottom:20px;">
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">Output State Frequency (Duty Cycle)</h2>
+            </div>
+            <canvas id="outputFrequencyChart" height="200"></canvas>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">PLA Matrix Crosspoint Density</h2>
+            </div>
+            <canvas id="matrixUtilChart" height="200"></canvas>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">Product Term Coverage</h2>
+            </div>
+            <canvas id="termCoverageChart" height="200"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <!-- 11. DOCUMENTATION SECTION -->
+      <section id="documentation" class="page-section">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">Documentation & System Specifications</h2>
+          </div>
+          <div style="font-size:14px; color:var(--text-secondary); line-height:1.7;">
+            <h3 style="color:var(--cyan-neon); margin-bottom:6px;">1. Engineering Assumptions</h3>
+            <ul style="margin-left:20px; margin-bottom:16px;">
+              <li><strong>Active-High Logic:</strong> All inputs (A, B, C, D) and outputs (Y1-Y4) assume positive logic (0 = 0V/GND, 1 = +5V/Vcc).</li>
+              <li><strong>Programmable Fuses:</strong> Fusible links at the crosspoints of AND and OR arrays are intact when programmed and open when unprogrammed.</li>
+              <li><strong>Zero Static Hazard:</strong> Minimization preserves necessary consensus terms to prevent dynamic glitches during single-variable transitions.</li>
+            </ul>
+
+            <h3 style="color:var(--cyan-neon); margin-bottom:6px;">2. Syntax & Expression Format</h3>
+            <p style="margin-bottom:16px;">
+              Supported input variables are <code>A, B, C, D</code>. Supported operators: <code>AND (*)</code>, <code>OR (+)</code>, <code>NOT (')</code>, or direct concatenation like <code>A'B'C</code>.
+            </p>
+
+            <h3 style="color:var(--cyan-neon); margin-bottom:6px;">3. Python Dependencies (`requirements.txt`)</h3>
+            <pre style="background:var(--bg-secondary); padding:12px; border-radius:6px; border:1px solid var(--border-color); font-family:var(--font-mono); font-size:12px; margin-bottom:16px;">
+flask>=3.0.0
+flask-cors>=4.0.0
+numpy>=1.26.0
+pandas>=2.2.0</pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- 12. ADMIN PANEL -->
+      <section id="admin" class="page-section">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">Administrative Controls & Dataset Synthesizer</h2>
+          </div>
+          <div class="grid-2" style="margin-bottom:20px;">
+            <!-- Dataset Upload -->
+            <div style="background:var(--bg-secondary); padding:16px; border-radius:8px; border:1px solid var(--border-color);">
+              <h3 style="font-size:14px; margin-bottom:8px; color:var(--cyan-neon);">Upload Custom Dataset (CSV / JSON)</h3>
+              <p style="font-size:12px; color:var(--text-secondary); margin-bottom:12px;">Upload custom input/output test vectors to benchmark the PLA engine.</p>
+              <input type="file" id="datasetFileInput" accept=".csv,.json" style="margin-bottom:10px; font-size:12px;">
+              <button class="btn btn-outline btn-sm" id="uploadDatasetBtn">📤 Process & Upload Dataset</button>
+              <span id="uploadStatusMsg" style="font-size:12px; color:var(--green-neon); margin-left:8px;"></span>
+            </div>
+
+            <!-- System Reset -->
+            <div style="background:var(--bg-secondary); padding:16px; border-radius:8px; border:1px solid var(--border-color);">
+              <h3 style="font-size:14px; margin-bottom:8px; color:var(--amber-neon);">System Reset & Maintenance</h3>
+              <p style="font-size:12px; color:var(--text-secondary); margin-bottom:12px;">Reset SQLite database and restore standard Full Adder benchmark rules.</p>
+              <button class="btn btn-danger btn-sm" onclick="fetch('/api/reset', {method:'POST'}).then(() => location.reload())">Reset Database to Default</button>
+            </div>
+          </div>
+
+          <!-- Dataset Generation -->
+          <div class="card" style="background:var(--bg-secondary); border-color:var(--border-color);">
+            <h3 style="font-size:14px; margin-bottom:8px; color:var(--purple-neon);">Synthetic Dataset Generator</h3>
+            <p style="font-size:12px; color:var(--text-secondary); margin-bottom:12px;">Generate random digital logic vectors with configurable fault injection rate.</p>
+            <button class="btn btn-outline btn-sm" id="exportDatasetCsv">📥 Download Generated Dataset (CSV)</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 13. DELIVERABLES SECTION -->
+      <section id="deliverables" class="page-section">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title">Project Deliverables & Academic Citations</h2>
+              <div class="card-subtitle">Coursework, source code, data packages, and references</div>
+            </div>
+          </div>
+
+          <div class="grid-3" style="margin-bottom:24px;">
+            <div class="card" style="background:var(--bg-secondary); border-color:var(--border-color);">
+              <h4 style="color:var(--cyan-neon); margin-bottom:8px;">Source Code & Documentation</h4>
+              <p style="font-size:12px; color:var(--text-secondary); margin-bottom:12px;">Download clean source files (Flask backend, engine, UI) or README.</p>
+              <div style="display:flex; gap:8px;">
+                <a href="/api/download/source" class="btn btn-primary btn-sm">Download Source (.zip)</a>
+                <a href="/api/download/readme" class="btn btn-outline btn-sm">README.md</a>
+              </div>
+            </div>
+            <div class="card" style="background:var(--bg-secondary); border-color:var(--border-color);">
+              <h4 style="color:var(--green-neon); margin-bottom:8px;">Datasets & Test Suite</h4>
+              <p style="font-size:12px; color:var(--text-secondary); margin-bottom:12px;">Truth table exports, 15 verification vectors, and synthetic benchmark CSV.</p>
+              <div style="display:flex; gap:8px;">
+                <button class="btn btn-outline btn-sm" onclick="document.getElementById('exportTruthTableCsv').click()">Truth Table (CSV)</button>
+                <button class="btn btn-outline btn-sm" onclick="document.getElementById('exportTestCasesCsv').click()">Test Cases (CSV)</button>
+              </div>
+            </div>
+            <div class="card" style="background:var(--bg-secondary); border-color:var(--border-color);">
+              <h4 style="color:var(--purple-neon); margin-bottom:8px;">Printable Report</h4>
+              <p style="font-size:12px; color:var(--text-secondary); margin-bottom:12px;">Complete formatted PDF documentation with matrix diagrams and logs.</p>
+              <button class="btn btn-outline btn-sm" onclick="window.print()">Print / Save as PDF</button>
+            </div>
+          </div>
+
+          <!-- Screenshots Gallery Modal Trigger -->
+          <div style="margin-bottom:24px;">
+            <h3 style="font-size:15px; margin-bottom:10px; color:var(--cyan-neon);">Module Screenshots & Visual Walkthrough</h3>
+            <div class="grid-4" style="gap:12px;">
+              <div class="card" style="background:var(--bg-secondary); padding:12px; text-align:center;">
+                <div style="font-size:24px; margin-bottom:6px;">🕹️</div>
+                <strong style="font-size:12px;">PLA Simulator</strong>
+                <p style="font-size:11px; color:var(--text-muted); margin-top:2px;">Live toggles & glowing canvas bus</p>
+              </div>
+              <div class="card" style="background:var(--bg-secondary); padding:12px; text-align:center;">
+                <div style="font-size:24px; margin-bottom:6px;">📊</div>
+                <strong style="font-size:12px;">Truth Table</strong>
+                <p style="font-size:11px; color:var(--text-muted); margin-top:2px;">16-minterm matrix with CSV export</p>
+              </div>
+              <div class="card" style="background:var(--bg-secondary); padding:12px; text-align:center;">
+                <div style="font-size:24px; margin-bottom:6px;">⚠️</div>
+                <strong style="font-size:12px;">Conflict Detection</strong>
+                <p style="font-size:11px; color:var(--text-muted); margin-top:2px;">Duplicate & subsumption scanner</p>
+              </div>
+              <div class="card" style="background:var(--bg-secondary); padding:12px; text-align:center;">
+                <div style="font-size:24px; margin-bottom:6px;">📈</div>
+                <strong style="font-size:12px;">Data Analytics</strong>
+                <p style="font-size:11px; color:var(--text-muted); margin-top:2px;">Duty cycles & crosspoint density</p>
+              </div>
+            </div>
+          </div>
+
+          <h3 style="font-size:15px; margin-bottom:10px; color:var(--text-primary);">Academic References & Syllabus Alignment</h3>
+          <ul style="font-size:13px; color:var(--text-secondary); line-height:1.7; margin-left:20px;">
+            <li><strong>M. Morris Mano & Michael D. Ciletti</strong>, <em>Digital Design: With an Introduction to the Verilog HDL</em>, 5th Edition, Pearson Education. (Chapter 7: Memory and Programmable Logic).</li>
+            <li><strong>Thomas L. Floyd</strong>, <em>Digital Fundamentals</em>, 11th Edition, Pearson Education. (Programmable Logic Arrays & PLD Architectures).</li>
+            <li><strong>Anna University EC2201 / CS8351</strong>, <em>Digital Principles and System Design</em>, Unit IV: Programmable Logic Devices (PLDs: PROM, PLA, PAL).</li>
+            <li><strong>IEEE Standard 1076</strong>, <em>Standard VHDL Language Reference Manual</em>, IEEE Computer Society.</li>
+          </ul>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Edit Rule Modal -->
+  <div class="modal-backdrop" id="editRuleModal">
+    <div class="modal-content">
+      <div class="card-header">
+        <h3 class="card-title">Edit Boolean Rule</h3>
+        <button class="icon-btn" onclick="document.getElementById('editRuleModal').classList.remove('open')">✕</button>
+      </div>
+      <form id="editRuleForm">
+        <input type="hidden" id="editRuleId">
+        <div style="margin-bottom:12px;">
+          <label style="font-size:12px; color:var(--text-secondary); display:block; margin-bottom:4px;">Rule Name:</label>
+          <input type="text" id="editRuleName" style="width:100%; padding:8px 12px; background:var(--bg-secondary); border:1px solid var(--border-color); color:var(--text-primary); border-radius:6px;">
+        </div>
+        <div style="margin-bottom:12px;">
+          <label style="font-size:12px; color:var(--text-secondary); display:block; margin-bottom:4px;">Target Output:</label>
+          <select id="editRuleTarget" style="width:100%; padding:8px 12px; background:var(--bg-secondary); border:1px solid var(--border-color); color:var(--text-primary); border-radius:6px;">
+            <option value="Y1">Output Y1</option>
+            <option value="Y2">Output Y2</option>
+            <option value="Y3">Output Y3</option>
+            <option value="Y4">Output Y4</option>
+          </select>
+        </div>
+        <div style="margin-bottom:12px;">
+          <label style="font-size:12px; color:var(--text-secondary); display:block; margin-bottom:4px;">Boolean SOP Expression:</label>
+          <input type="text" id="editRuleExpr" style="width:100%; padding:8px 12px; background:var(--bg-secondary); border:1px solid var(--border-color); color:var(--text-primary); font-family:var(--font-mono); border-radius:6px;">
+        </div>
+        <div style="margin-bottom:16px;">
+          <label style="font-size:12px; color:var(--text-secondary); display:block; margin-bottom:4px;">Description:</label>
+          <input type="text" id="editRuleDesc" style="width:100%; padding:8px 12px; background:var(--bg-secondary); border:1px solid var(--border-color); color:var(--text-primary); border-radius:6px;">
+        </div>
+        <div style="display:flex; justify-content:flex-end; gap:8px;">
+          <button type="button" class="btn btn-outline" onclick="document.getElementById('editRuleModal').classList.remove('open')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/pla_core.js"></script>
+  <script src="js/visualizer.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
