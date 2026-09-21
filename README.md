@@ -5,6 +5,16 @@ Designed in alignment with the **EC2201 / CS8351 Digital Principles & System Des
 
 ---
 
+## 🌐 Live Web Application & Documentation
+
+- **Live GitHub Pages URL**: **[https://thatchina2007-commits.github.io/PLA-Rule-Engine/](https://thatchina2007-commits.github.io/PLA-Rule-Engine/)**
+- **Mini Project Report (PDF)**: **[PLA_Rule_Engine_Mini_Project_Report.pdf](PLA_Rule_Engine_Mini_Project_Report.pdf)**
+  - *Author*: **T THATCHINA MOORTHY** | *Register Number*: **920425243109** | *Section*: **B**
+  - *Course*: **EC2201 & EC2202 – Digital System Design and Microprocessor**
+  - *Institution*: **Kamaraj College of Engineering and Technology (Department of ADS)**
+
+---
+
 ## 🌟 Overview
 
 The **PLA-Based Rule Engine Designer** is an interactive engineering CAD workbench that models, synthesizes, minimizes, and simulates Programmable Logic Arrays (PLAs). It bridges the gap between theoretical Boolean algebra and physical digital electronics hardware.
